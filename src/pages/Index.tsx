@@ -1,16 +1,29 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import PasscodeGate from "@/components/PasscodeGate";
+import HeroSection from "@/components/HeroSection";
+import PhotoVideoGallery from "@/components/PhotoVideoGallery";
+import RSVPSection from "@/components/RSVPSection";
+import PollsSection from "@/components/PollsSection";
+import FooterSection from "@/components/FooterSection";
+import AdminPanel from "@/components/AdminPanel";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const [unlocked, setUnlocked] = useState(() => sessionStorage.getItem("bs_unlocked") === "true");
+
+  if (!unlocked) {
+    return <PasscodeGate onUnlock={() => setUnlocked(true)} />;
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen">
+      <HeroSection />
+      <PhotoVideoGallery />
+      <RSVPSection />
+      <PollsSection />
+      <FooterSection />
+      <AdminPanel />
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
