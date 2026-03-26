@@ -13,7 +13,7 @@ const RSVPSection = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ name: "", guests: "1", attending: "yes" as const, message: "" });
+  const [form, setForm] = useState<{ name: string; guests: string; attending: "yes" | "no" | "maybe"; message: string }>({ name: "", guests: "1", attending: "yes", message: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
