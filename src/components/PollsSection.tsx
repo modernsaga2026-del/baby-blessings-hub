@@ -107,7 +107,7 @@ const PollsSection = () => {
           transition={{ duration: 0.7 }}
           className="text-center mb-10">
           
-          <p className="font-body tracking-[0.4em] uppercase mb-2 rounded-xl text-6xl font-extrabold shadow-2xl bg-gold-light text-destructive">
+          <p className="font-body tracking-[0.4em] uppercase mb-2 rounded-xl text-6xl font-extrabold shadow-2xl bg-gold-light text-foreground">
             Fun & Games
           </p>
           <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">
