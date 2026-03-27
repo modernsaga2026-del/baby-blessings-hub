@@ -5,119 +5,121 @@ import mandalaImg from "@/assets/mandala-gold.png";
 const HeroSection = () => {
   return (
     <section className="relative flex flex-col overflow-hidden">
-      {/* Full hero image with all details overlaid */}
-      <div className="relative w-full min-h-screen">
+      {/* Background image - full visible */}
+      <div className="relative w-full h-[60vh] md:h-[70vh]">
         <img
           src={heroBg}
-          alt="Gender reveal celebration - He or She, what will baby be?"
-          className="w-full h-full object-cover absolute inset-0"
+          alt="Gender reveal celebration"
+          className="w-full h-full object-cover"
           width={1920}
           height={1080}
         />
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/20 via-transparent to-primary/60" />
 
-        {/* Rotating mandala */}
+        {/* Rotating mandala on the image */}
         <motion.img
           src={mandalaImg}
           alt=""
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] pointer-events-none"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 pointer-events-none"
           style={{ width: "50vmin", height: "50vmin" }}
           animate={{ rotate: 360 }}
           transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
         />
 
-        {/* All content overlaid on the image */}
-        <div className="relative z-10 flex flex-col items-center justify-end min-h-screen px-6 pb-8 pt-20 text-center">
-          {/* Title */}
+        {/* Title overlay on image */}
+        <div className="absolute bottom-0 left-0 right-0 text-center px-6 pb-8">
           <motion.h1
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="font-display text-2xl md:text-4xl lg:text-5xl font-semibold text-white leading-tight drop-shadow-lg"
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="font-display text-3xl md:text-5xl lg:text-6xl font-semibold text-primary-foreground leading-tight drop-shadow-lg"
           >
             Please Join Our Celebration
-            <span className="block text-gold-gradient text-lg md:text-2xl lg:text-3xl mt-1 font-medium italic">
+            <span className="block text-gold-gradient text-xl md:text-3xl lg:text-4xl mt-1 font-medium italic">
               Baby Gender Reveal
             </span>
           </motion.h1>
+        </div>
+      </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="divider-ornament w-36 mx-auto my-4"
-          />
+      {/* Content section below image */}
+      <div className="relative z-10 bg-gradient-to-b from-primary to-emerald-light text-center px-6 py-10 md:py-14">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="font-display text-lg md:text-2xl text-primary-foreground/90 italic max-w-xl mx-auto leading-relaxed"
+        >
+          A new adventure is about to begin.
+          <br />
+          We are so excited to share our joy with you!
+        </motion.p>
 
-          {/* Quote */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="font-display text-sm md:text-lg text-white/90 italic max-w-md mx-auto leading-relaxed"
-          >
-            A new adventure is about to begin.
-            <br />
-            We are so excited to share our joy with you!
-          </motion.p>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+          className="divider-ornament w-48 mx-auto my-6"
+        />
 
-          {/* Info card overlaid on image */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="mt-5 inline-block bg-black/30 backdrop-blur-md rounded-2xl px-6 py-5 md:px-10 md:py-7 border border-accent/20 max-w-lg w-full"
-          >
-            {/* Parents */}
-            <p className="font-body text-[10px] md:text-xs tracking-[0.3em] uppercase text-white/70">
-              Celebrating the Journey of
-            </p>
-            <p className="font-display text-2xl md:text-3xl text-white font-bold mt-1">
-              Riddhi & Vismay
-            </p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0 }}
+          className="space-y-1"
+        >
+          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary-foreground/70">
+            Celebrating the Journey of
+          </p>
+          <p className="font-display text-3xl md:text-4xl text-primary-foreground font-bold">
+            Riddhi & Vismay
+          </p>
+        </motion.div>
 
-            <div className="w-16 h-px bg-accent/40 mx-auto my-3" />
-
-            {/* Date & Time */}
-            <p className="font-body text-[10px] md:text-xs tracking-[0.3em] uppercase text-white/70">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.3 }}
+          className="mt-8"
+        >
+          <div className="inline-block bg-card/15 backdrop-blur-sm rounded-2xl px-8 py-6 border border-accent/20 max-w-md">
+            <p className="font-body text-xs tracking-[0.3em] uppercase text-primary-foreground/70">
               Save the Date
             </p>
-            <p className="font-display text-lg md:text-2xl text-white font-semibold mt-1">
+            <p className="font-display text-2xl md:text-3xl text-primary-foreground font-semibold mt-2">
               Saturday, May 9, 2026
             </p>
-            <p className="font-body text-white/80 mt-1 text-sm md:text-base">
+            <p className="font-body text-primary-foreground/80 mt-2 text-lg">
               5:00 PM – 9:00 PM
             </p>
 
-            <div className="w-16 h-px bg-accent/40 mx-auto my-3" />
+            <div className="w-16 h-px bg-accent/40 mx-auto my-4" />
 
-            {/* Venue */}
-            <p className="font-body text-white/90 text-xs md:text-sm font-medium">
+            <p className="font-body text-primary-foreground/90 text-sm font-medium">
               Agincourt Community Recreation Centre
             </p>
-            <p className="font-body text-white/70 text-[11px] md:text-xs mt-1">
+            <p className="font-body text-primary-foreground/70 text-xs mt-1">
               Event Hall – Multipurpose Room, 2nd Floor
             </p>
-            <p className="font-body text-white/60 text-[10px] md:text-xs mt-1">
+            <p className="font-body text-primary-foreground/60 text-xs mt-1">
               31 Glen Watford Dr, Scarborough, ON M1S 2B7
             </p>
-          </motion.div>
+          </div>
+        </motion.div>
 
-          {/* RSVP Button */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1 }}
-            className="mt-5 mb-2"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.6 }}
+          className="mt-8"
+        >
+          <a
+            href="#rsvp"
+            className="inline-block px-8 py-3 bg-gold-gradient rounded-full font-body text-sm tracking-widest uppercase text-accent-foreground hover:opacity-90 transition-opacity shadow-gold"
           >
-            <a
-              href="#rsvp"
-              className="inline-block px-8 py-3 bg-gold-gradient rounded-full font-body text-sm tracking-widest uppercase text-accent-foreground hover:opacity-90 transition-opacity shadow-gold"
-            >
-              RSVP Now
-            </a>
-          </motion.div>
-        </div>
+            RSVP Now
+          </a>
+        </motion.div>
       </div>
     </section>
   );
