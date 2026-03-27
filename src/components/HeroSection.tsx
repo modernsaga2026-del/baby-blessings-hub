@@ -67,7 +67,7 @@ const HeroSection = () => {
             Celebrating the Journey of
           </p>
           <p className="font-display text-3xl md:text-4xl text-primary-foreground font-bold">
-            Mom & Dad To-Be
+            Riddhi & Vismay
           </p>
         </motion.div>
 
@@ -82,13 +82,19 @@ const HeroSection = () => {
               Save the Date
             </p>
             <p className="font-display text-2xl md:text-3xl text-primary-foreground font-semibold mt-1">
-              Sunday, April 20, 2026
+              Saturday, May 9, 2026
             </p>
             <p className="font-body text-primary-foreground/80 mt-2">
-              3:00 PM onwards
+              5:00 PM – 9:00 PM
             </p>
             <p className="font-body text-primary-foreground/70 text-sm mt-1">
-              Venue Name, City
+              Agincourt Community Recreation Centre
+            </p>
+            <p className="font-body text-primary-foreground/60 text-xs mt-0.5">
+              Event Hall – Multipurpose Room, 2nd Floor
+            </p>
+            <p className="font-body text-primary-foreground/60 text-xs mt-0.5">
+              31 Glen Watford Dr, Scarborough, ON M1S 2B7
             </p>
           </div>
         </motion.div>
