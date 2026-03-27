@@ -67,17 +67,15 @@ const PhotoVideoGallery = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="col-span-2 md:col-span-1 row-span-2 rounded-2xl overflow-hidden shadow-gold bg-primary/10 flex items-center justify-center relative"
+            className="col-span-2 md:col-span-1 row-span-2 rounded-2xl overflow-hidden shadow-gold"
           >
-            <div className="text-center p-6">
-              <div className="w-16 h-16 rounded-full bg-gold-gradient flex items-center justify-center mx-auto mb-4 shadow-gold">
-                <svg className="w-8 h-8 text-accent-foreground ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-              <p className="font-display text-xl text-primary font-semibold">Our Special Video</p>
-              <p className="font-body text-sm text-muted-foreground mt-1">Coming soon ✨</p>
-            </div>
+            <video
+              src="/videos/special-video.mov"
+              controls
+              playsInline
+              preload="metadata"
+              className="w-full h-full object-cover"
+            />
           </motion.div>
         </div>
       </div>
