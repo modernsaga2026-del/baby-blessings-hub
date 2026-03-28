@@ -36,7 +36,7 @@ const HeroSection = () => {
           >
             Please Join Our Celebration
             <span className="block text-gold-gradient text-xl md:text-3xl lg:text-4xl mt-1 font-medium italic">
-              Baby Gender Reveal
+              Gender Reveal Party
             </span>
           </motion.h1>
         </div>
