@@ -64,8 +64,8 @@ const PhotoVideoGallery = () => {
   }, [isPlaying]);
 
   const photos = [
-    { src: babyItemsImg, alt: "Baby ultrasound", span: "col-span-2 row-span-2", hasHeartbeat: true },
-    { src: decorImg, alt: "Beautiful celebration setup", span: "col-span-1 row-span-1", hasHeartbeat: false },
+    { src: babyItemsImg, alt: "Baby shoes and items", span: "col-span-2 row-span-2", hasHeartbeat: false },
+    { src: decorImg, alt: "Baby ultrasound", span: "col-span-1 row-span-1", hasHeartbeat: true },
   ];
 
   return (
