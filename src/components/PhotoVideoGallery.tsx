@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import babyItemsImg from "@/assets/baby-items.jpg";
-import decorImg from "@/assets/decor-setup.jpg";
+import decorImg from "@/assets/celebration-decor.jpg";
 import mandalaImg from "@/assets/mandala-gold.png";
 
 const PhotoVideoGallery = () => {
