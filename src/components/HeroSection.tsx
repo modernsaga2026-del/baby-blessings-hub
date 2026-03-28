@@ -1,9 +1,34 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { MapPin } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 import mandalaImg from "@/assets/mandala-gold.png";
 import eventDetailsImg from "@/assets/event-details.jpg";
 
+const EVENT_DATE = new Date("2026-05-09T17:00:00");
+const VENUE_ADDRESS = "Agincourt Community Recreation Centre, 31 Glen Watford Dr, Scarborough, ON";
+const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(VENUE_ADDRESS)}`;
+
+function getTimeLeft() {
+  const now = new Date();
+  const diff = EVENT_DATE.getTime() - now.getTime();
+  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  return {
+    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((diff / (1000 * 60)) % 60),
+    seconds: Math.floor((diff / 1000) % 60),
+  };
+}
+
 const HeroSection = () => {
+  const [timeLeft, setTimeLeft] = useState(getTimeLeft());
+
+  useEffect(() => {
+    const id = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <section className="relative flex flex-col overflow-hidden">
       {/* Background image - full visible */}
@@ -60,8 +85,52 @@ const HeroSection = () => {
         />
       </motion.div>
 
-      {/* RSVP button */}
-      <div className="bg-gradient-to-b from-[hsl(var(--primary))] to-[hsl(var(--primary))] text-center py-8">
+      {/* Countdown + Date blink + Map link */}
+      <div className="bg-[hsl(var(--primary))] text-center py-8 px-4 space-y-6">
+        {/* Blinking date & time */}
+        <motion.p
+          animate={{ opacity: [1, 0.3, 1] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="font-display text-xl md:text-2xl text-[hsl(var(--accent))] font-semibold tracking-wide"
+        >
+          ✨ Saturday, May 9, 2026 &bull; 5:00 PM – 9:00 PM ✨
+        </motion.p>
+
+        {/* Countdown timer */}
+        <div className="flex justify-center gap-3 md:gap-6">
+          {(["days", "hours", "minutes", "seconds"] as const).map((unit) => (
+            <motion.div
+              key={unit}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.9 }}
+              className="flex flex-col items-center bg-[hsl(var(--primary-foreground)/0.1)] backdrop-blur rounded-xl px-3 py-3 md:px-5 md:py-4 min-w-[60px] md:min-w-[80px] border border-[hsl(var(--accent)/0.3)]"
+            >
+              <span className="font-display text-2xl md:text-4xl font-bold text-[hsl(var(--accent))]">
+                {timeLeft[unit].toString().padStart(2, "0")}
+              </span>
+              <span className="font-body text-[10px] md:text-xs uppercase tracking-widest text-primary-foreground/70 mt-1">
+                {unit}
+              </span>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Google Maps link */}
+        <motion.a
+          href={MAPS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.1 }}
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-[hsl(var(--accent)/0.15)] border border-[hsl(var(--accent)/0.4)] rounded-full text-[hsl(var(--accent))] hover:bg-[hsl(var(--accent)/0.25)] transition-colors font-body text-sm md:text-base"
+        >
+          <MapPin className="w-4 h-4" />
+          Open in Google Maps
+        </motion.a>
+
+        {/* RSVP button */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
