@@ -70,10 +70,11 @@ const PhotoVideoGallery = () => {
             className="col-span-2 md:col-span-1 row-span-2 rounded-2xl overflow-hidden shadow-gold"
           >
             <video
-              src="/videos/special-video.mov"
+              src="/videos/special-video.mov#t=0.1"
               controls
               playsInline
               preload="metadata"
+              poster=""
               className="w-full h-full object-cover"
             />
           </motion.div>

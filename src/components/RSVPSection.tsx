@@ -111,7 +111,7 @@ const RSVPSection = () => {
                 onChange={(e) => setForm({ ...form, guests: e.target.value })}
                 className="w-full px-4 py-3 rounded-xl bg-background border border-border font-body focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all">
                 
-                  {[1, 2, 3, 4, 5].map((n) =>
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((n) =>
                 <option key={n} value={n}>{n} {n === 1 ? "Guest" : "Guests"}</option>
                 )}
                 </select>
