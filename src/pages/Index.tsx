@@ -16,6 +16,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      <div className="bg-[hsl(var(--accent))] text-center py-2 px-4">
+        <p className="font-display text-sm md:text-base font-semibold tracking-wide text-accent-foreground animate-pulse">
+          🎁 No Boxed Gift Please 🎁
+        </p>
+      </div>
       <HeroSection />
       <PhotoVideoGallery />
       <RSVPSection />
