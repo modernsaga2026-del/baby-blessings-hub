@@ -7,21 +7,27 @@ const FooterSection = () => {
       <motion.img
         src={mandalaImg}
         alt=""
-        className="absolute opacity-[0.06] pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="absolute opacity-[0.06] pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 float-3d"
         style={{ width: "50vmin", height: "50vmin" }}
         loading="lazy"
         width={512}
         height={512}
       />
       <div className="relative z-10 text-center max-w-lg mx-auto">
-        <p className="font-display text-3xl md:text-4xl text-primary-foreground font-semibold mb-2">
+        <motion.p
+          initial={{ opacity: 0, y: 20, rotateX: 10 }}
+          whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, type: "spring" }}
+          className="font-display text-3xl md:text-4xl text-primary-foreground font-semibold mb-2"
+        >
           With Love & Blessings
-        </p>
+        </motion.p>
         <div className="divider-ornament w-24 mx-auto my-4 opacity-60" />
         <p className="font-body text-primary-foreground/70 text-sm">
           We can't wait to celebrate this beautiful moment with you 💛
         </p>
-        <p className="font-display text-lg md:text-xl text-[hsl(var(--accent))] font-semibold tracking-wide mt-4">
+        <p className="font-display text-lg md:text-xl text-[hsl(var(--accent))] font-semibold tracking-wide mt-4 animate-pulse">
           🎁 No Boxed Gift Please 🎁
         </p>
         <p className="font-body text-primary-foreground/40 text-xs mt-8">

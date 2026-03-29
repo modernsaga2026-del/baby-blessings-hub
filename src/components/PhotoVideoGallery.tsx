@@ -7,13 +7,12 @@ import mandalaImg from "@/assets/mandala-gold.png";
 
 function createHeartbeat(audioCtx: AudioContext) {
   const now = audioCtx.currentTime;
-  const bpm = 140; // baby heartbeat ~140 bpm
+  const bpm = 140;
   const beatInterval = 60 / bpm;
-  const totalBeats = Math.ceil(8 / beatInterval); // 8 seconds of heartbeat
+  const totalBeats = Math.ceil(8 / beatInterval);
 
   for (let i = 0; i < totalBeats; i++) {
     const t = now + i * beatInterval;
-    // "lub"
     const osc1 = audioCtx.createOscillator();
     const gain1 = audioCtx.createGain();
     osc1.frequency.value = 60;
@@ -25,7 +24,6 @@ function createHeartbeat(audioCtx: AudioContext) {
     osc1.start(t);
     osc1.stop(t + 0.15);
 
-    // "dub" (slightly delayed, higher)
     const osc2 = audioCtx.createOscillator();
     const gain2 = audioCtx.createGain();
     osc2.frequency.value = 80;
@@ -56,7 +54,6 @@ const PhotoVideoGallery = () => {
     audioCtxRef.current = ctx;
     createHeartbeat(ctx);
     setIsPlaying(true);
-    // Auto-stop after 8s
     setTimeout(() => {
       ctx.close().catch(() => {});
       setIsPlaying(false);
@@ -69,23 +66,23 @@ const PhotoVideoGallery = () => {
   ];
 
   return (
-    <section ref={sectionRef} className="py-20 px-6 bg-secondary/50 relative overflow-hidden">
+    <div ref={sectionRef} className="h-full w-full flex flex-col justify-center py-8 pt-12 px-6 bg-secondary/50 relative overflow-hidden">
       {/* Background mandala */}
-      <img
+      <motion.img
         src={mandalaImg}
         alt=""
-        className="absolute -right-32 top-0 w-64 h-64 opacity-[0.04] pointer-events-none"
+        className="absolute -right-32 top-0 w-64 h-64 opacity-[0.04] pointer-events-none float-3d-reverse"
         loading="lazy"
         width={256}
         height={256}
       />
 
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto w-full">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, y: 30, rotateX: 10 }}
+          animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
           <p className="font-body text-xs tracking-[0.4em] uppercase text-muted-foreground mb-2">
             Moments to Cherish
@@ -96,20 +93,20 @@ const PhotoVideoGallery = () => {
           <div className="divider-ornament w-32 mx-auto mt-4" />
         </motion.div>
 
-        {/* Photo Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
+        {/* Photo Grid with 3D hover */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4" style={{ perspective: "800px" }}>
           {photos.map((photo, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.2 }}
-              className={`${photo.span} rounded-2xl overflow-hidden shadow-gold relative group`}
+              initial={{ opacity: 0, y: 40, rotateY: i % 2 === 0 ? -10 : 10 }}
+              animate={isInView ? { opacity: 1, y: 0, rotateY: 0 } : {}}
+              transition={{ duration: 0.6, delay: i * 0.2, type: "spring" }}
+              className={`${photo.span} rounded-2xl overflow-hidden shadow-gold relative group depth-card`}
             >
               <img
                 src={photo.src}
                 alt={photo.alt}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 loading="lazy"
                 width={640}
                 height={640}
@@ -117,7 +114,7 @@ const PhotoVideoGallery = () => {
               {photo.hasHeartbeat && (
                 <button
                   onClick={toggleHeartbeat}
-                  className="absolute bottom-4 right-4 flex items-center gap-2 px-4 py-2 rounded-full bg-[hsl(var(--primary)/0.85)] backdrop-blur text-primary-foreground text-sm font-body shadow-lg hover:bg-[hsl(var(--primary))] transition-colors"
+                  className="absolute bottom-4 right-4 flex items-center gap-2 px-4 py-2 rounded-full glass text-primary-foreground text-sm font-body shadow-lg hover:bg-[hsl(var(--primary))] transition-colors"
                   aria-label={isPlaying ? "Stop heartbeat" : "Play heartbeat"}
                 >
                   <motion.span
@@ -132,12 +129,12 @@ const PhotoVideoGallery = () => {
             </motion.div>
           ))}
 
-          {/* Video placeholder */}
+          {/* Video */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="col-span-2 md:col-span-1 row-span-2 rounded-2xl overflow-hidden shadow-gold"
+            initial={{ opacity: 0, y: 40, rotateX: 8 }}
+            animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.4, type: "spring" }}
+            className="col-span-2 md:col-span-1 row-span-2 rounded-2xl overflow-hidden shadow-gold depth-card"
           >
             <video
               src="/videos/special-video.mov#t=0.1"
@@ -150,7 +147,7 @@ const PhotoVideoGallery = () => {
           </motion.div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
