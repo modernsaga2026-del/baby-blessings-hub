@@ -21,6 +21,9 @@ const FooterSection = () => {
         <p className="font-body text-primary-foreground/70 text-sm">
           We can't wait to celebrate this beautiful moment with you 💛
         </p>
+        <p className="font-display text-lg md:text-xl text-[hsl(var(--accent))] font-semibold tracking-wide mt-4">
+          🎁 No Boxed Gift Please 🎁
+        </p>
         <p className="font-body text-primary-foreground/40 text-xs mt-8">
           Made with love for our little one
         </p>

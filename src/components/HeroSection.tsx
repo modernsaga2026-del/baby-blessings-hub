@@ -143,6 +143,18 @@ const HeroSection = () => {
             RSVP Now
           </a>
         </motion.div>
+
+        {/* No boxed gift notice */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4 }}
+          className="pt-2"
+        >
+          <p className="font-display text-lg md:text-xl text-[hsl(var(--accent))] font-semibold tracking-wide animate-pulse">
+            🎁 No Boxed Gift Please 🎁
+          </p>
+        </motion.div>
       </div>
     </section>
   );
