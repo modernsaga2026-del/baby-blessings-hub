@@ -148,6 +148,10 @@
   scroll-snap-align: end;
 }
 
+.snap-section-scrollable {
+  overflow-y: auto;
+}
+
 /* 3D card depth effect */
 .depth-card {
   transform: translateZ(0);
