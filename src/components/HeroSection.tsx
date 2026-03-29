@@ -58,7 +58,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="font-display text-3xl md:text-5xl lg:text-6xl font-semibold text-primary-foreground leading-tight drop-shadow-lg">
+            className="font-display text-3xl md:text-5xl lg:text-6xl font-semibold leading-tight drop-shadow-lg text-destructive">
             
             Please Join Our Celebration
             <span className="block text-gold-gradient md:text-3xl lg:text-4xl mt-1 font-medium italic text-6xl">
