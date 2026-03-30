@@ -39,7 +39,7 @@ const HeroSection = () => {
   const particles = useMemo(generateParticles, []);
 
   return (
-    <div className="relative flex flex-col h-full w-full overflow-hidden">
+    <div className="relative flex flex-col h-[100dvh] w-full overflow-hidden">
       {/* Background image - fills entire section */}
       <img
         src={heroBg}
