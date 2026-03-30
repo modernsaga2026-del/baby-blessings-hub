@@ -163,7 +163,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.4, duration: 0.6 }}
-          className="mt-3 font-body text-sm md:text-base text-white/80 tracking-widest uppercase"
+          className="mt-3 font-body text-base md:text-lg lg:text-xl text-white/80 tracking-widest uppercase"
           style={{ textShadow: "0 1px 8px rgba(0,0,0,0.5)" }}
         >
           ✨ He or She, What Will Baby Be? ✨
