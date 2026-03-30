@@ -1,32 +1,33 @@
 import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-
-interface RSVPEntry {
-  name: string;
-  guests: number;
-  attending: "yes" | "no" | "maybe";
-  message: string;
-  timestamp: string;
-}
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const RSVPSection = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState<{name: string; guests: string; attending: "yes" | "no" | "maybe"; message: string;}>({ name: "", guests: "1", attending: "yes", message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const entries: RSVPEntry[] = JSON.parse(localStorage.getItem("bs_rsvp") || "[]");
-    entries.push({
-      name: form.name.trim(),
-      guests: parseInt(form.guests),
-      attending: form.attending,
-      message: form.message.trim(),
-      timestamp: new Date().toISOString()
-    });
-    localStorage.setItem("bs_rsvp", JSON.stringify(entries));
-    setSubmitted(true);
+    setSubmitting(true);
+    try {
+      const { error } = await supabase.from("rsvps" as any).insert({
+        name: form.name.trim(),
+        guests: parseInt(form.guests),
+        attending: form.attending,
+        message: form.message.trim(),
+      } as any);
+      if (error) throw error;
+      setSubmitted(true);
+    } catch (err: any) {
+      toast.error("Failed to submit RSVP. Please try again.");
+      console.error("RSVP error:", err);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -133,11 +134,12 @@ const RSVPSection = () => {
 
               <motion.button
                 type="submit"
+                disabled={submitting}
                 whileHover={{ scale: 1.02, y: -1 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-4 rounded-xl bg-gold-gradient font-body text-sm tracking-widest uppercase text-accent-foreground shadow-gold"
+                className="w-full py-4 rounded-xl bg-gold-gradient font-body text-sm tracking-widest uppercase text-accent-foreground shadow-gold disabled:opacity-50"
               >
-                Send RSVP
+                {submitting ? "Sending..." : "Send RSVP"}
               </motion.button>
             </motion.form>
           )}
