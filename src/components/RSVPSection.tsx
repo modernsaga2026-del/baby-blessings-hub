@@ -134,11 +134,12 @@ const RSVPSection = () => {
 
               <motion.button
                 type="submit"
+                disabled={submitting}
                 whileHover={{ scale: 1.02, y: -1 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-4 rounded-xl bg-gold-gradient font-body text-sm tracking-widest uppercase text-accent-foreground shadow-gold"
+                className="w-full py-4 rounded-xl bg-gold-gradient font-body text-sm tracking-widest uppercase text-accent-foreground shadow-gold disabled:opacity-50"
               >
-                Send RSVP
+                {submitting ? "Sending..." : "Send RSVP"}
               </motion.button>
             </motion.form>
           )}
