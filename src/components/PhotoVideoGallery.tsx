@@ -62,7 +62,7 @@ const PhotoVideoGallery = () => {
 
   const photos = [
     { src: babyItemsImg, alt: "Baby shoes and items", span: "col-span-2 row-span-2", hasHeartbeat: false },
-    { src: decorImg, alt: "Baby ultrasound", span: "col-span-1 row-span-1", hasHeartbeat: true },
+    { src: decorImg, alt: "Baby ultrasound", span: "col-span-2 row-span-2", hasHeartbeat: true },
   ];
 
   return (
