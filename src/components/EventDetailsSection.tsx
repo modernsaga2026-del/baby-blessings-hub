@@ -88,7 +88,7 @@ const EventDetailsSection = () => {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05, rotateZ: 1 }}
             whileTap={{ scale: 0.97 }}
-            className="inline-flex items-center gap-2 px-6 py-2.5 glass rounded-full text-[hsl(var(--accent))] font-body text-sm md:text-base glow-gold"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-white text-[hsl(var(--primary))] font-body font-semibold text-sm md:text-base rounded-full shadow-lg hover:shadow-xl transition-shadow"
           >
             <MapPin className="w-4 h-4" />
             Open in Google Maps

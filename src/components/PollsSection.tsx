@@ -1,5 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface PollQuestion {
   id: string;
@@ -7,13 +9,6 @@ interface PollQuestion {
   type: "choice" | "text";
   options?: string[];
   emoji?: string;
-}
-
-interface PollVote {
-  questionId: string;
-  answer: string;
-  voterName: string;
-  timestamp: string;
 }
 
 const POLL_QUESTIONS: PollQuestion[] = [
@@ -31,36 +26,53 @@ const PollsSection = () => {
   const [nameEntered, setNameEntered] = useState(false);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
-  const [allVotes, setAllVotes] = useState<PollVote[]>([]);
-
-  useEffect(() => {
-    const votes: PollVote[] = JSON.parse(localStorage.getItem("bs_polls") || "[]");
-    setAllVotes(votes);
-  }, [submitted]);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleAnswer = (questionId: string, answer: string) => {
     setAnswers((prev) => ({ ...prev, [questionId]: answer }));
   };
 
-  const handleSubmit = () => {
-    const votes: PollVote[] = JSON.parse(localStorage.getItem("bs_polls") || "[]");
-    Object.entries(answers).forEach(([questionId, answer]) => {
-      votes.push({ questionId, answer: answer.trim(), voterName: voterName.trim(), timestamp: new Date().toISOString() });
-    });
-    localStorage.setItem("bs_polls", JSON.stringify(votes));
-    setSubmitted(true);
-    setAllVotes(votes);
-  };
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    try {
+      const predictionData = {
+        prediction_gender: answers.gender?.trim() || null,
+        prediction_looks: answers.looks?.trim() || null,
+        prediction_trait: answers.trait?.trim() || null,
+        prediction_name: answers.name?.trim() || null,
+        prediction_wish: answers.wish?.trim() || null,
+      };
 
-  const getVoteCounts = (questionId: string) => {
-    const qVotes = allVotes.filter((v) => v.questionId === questionId);
-    const counts: Record<string, number> = {};
-    qVotes.forEach((v) => { counts[v.answer] = (counts[v.answer] || 0) + 1; });
-    return { counts, total: qVotes.length };
-  };
+      // Try to update an existing RSVP row matching this name
+      const { data: updated, error: updateError } = await supabase
+        .from("rsvps" as any)
+        .update(predictionData as any)
+        .eq("name", voterName.trim())
+        .select() as any;
 
-  const getTextAnswers = (questionId: string) => {
-    return allVotes.filter((v) => v.questionId === questionId).map((v) => v.answer);
+      if (updateError) throw updateError;
+
+      // If no matching RSVP row, insert a minimal one with predictions
+      if (!updated || updated.length === 0) {
+        const { error: insertError } = await supabase
+          .from("rsvps" as any)
+          .insert({
+            name: voterName.trim(),
+            attending: "yes",
+            guests: 1,
+            ...predictionData,
+          } as any);
+        if (insertError) throw insertError;
+      }
+
+      setSubmitted(true);
+      toast.success("Predictions submitted!");
+    } catch (err: any) {
+      toast.error("Failed to submit predictions. Please try again.");
+      console.error("Poll submit error:", err);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -126,74 +138,36 @@ const PollsSection = () => {
                   </h3>
 
                   {q.type === "choice" && q.options && (
-                    <>
-                      {!submitted ? (
-                        <div className="flex flex-wrap gap-2">
-                          {q.options.map((opt) => (
-                            <motion.button
-                              key={opt}
-                              type="button"
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              onClick={() => handleAnswer(q.id, opt)}
-                              className={`px-4 py-2 rounded-xl font-body text-sm border transition-all ${
-                                answers[q.id] === opt
-                                  ? "bg-emerald-gradient text-primary-foreground border-transparent shadow-gold"
-                                  : "bg-background border-border text-foreground hover:border-accent/40"
-                              }`}
-                            >
-                              {opt}
-                            </motion.button>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="space-y-2">
-                          {(() => {
-                            const { counts, total } = getVoteCounts(q.id);
-                            return q.options!.map((opt) => {
-                              const count = counts[opt] || 0;
-                              const pct = total > 0 ? Math.round(count / total * 100) : 0;
-                              return (
-                                <div key={opt} className="relative">
-                                  <div className="flex justify-between items-center mb-1">
-                                    <span className="font-body text-sm text-foreground">{opt}</span>
-                                    <span className="font-body text-xs text-muted-foreground">{pct}% ({count})</span>
-                                  </div>
-                                  <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                                    <motion.div
-                                      initial={{ width: 0 }}
-                                      animate={{ width: `${pct}%` }}
-                                      transition={{ duration: 0.8, delay: 0.2 }}
-                                      className="h-full bg-gold-gradient rounded-full"
-                                    />
-                                  </div>
-                                </div>
-                              );
-                            });
-                          })()}
-                        </div>
-                      )}
-                    </>
+                    <div className="flex flex-wrap gap-2">
+                      {q.options.map((opt) => (
+                        <motion.button
+                          key={opt}
+                          type="button"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => !submitted && handleAnswer(q.id, opt)}
+                          disabled={submitted}
+                          className={`px-4 py-2 rounded-xl font-body text-sm border transition-all ${
+                            answers[q.id] === opt
+                              ? "bg-emerald-gradient text-primary-foreground border-transparent shadow-gold"
+                              : "bg-background border-border text-foreground hover:border-accent/40"
+                          } ${submitted ? "opacity-70 cursor-default" : ""}`}
+                        >
+                          {opt}
+                        </motion.button>
+                      ))}
+                    </div>
                   )}
 
                   {q.type === "text" && (
-                    <>
-                      {!submitted ? (
-                        <input
-                          value={answers[q.id] || ""}
-                          onChange={(e) => handleAnswer(q.id, e.target.value)}
-                          placeholder="Type your answer..."
-                          maxLength={200}
-                          className="w-full px-4 py-3 rounded-xl bg-background border border-border font-body focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all"
-                        />
-                      ) : (
-                        <div className="flex flex-wrap gap-2">
-                          {getTextAnswers(q.id).map((ans, j) => (
-                            <span key={j} className="px-3 py-1.5 bg-blush rounded-full font-body text-sm text-foreground">{ans}</span>
-                          ))}
-                        </div>
-                      )}
-                    </>
+                    <input
+                      value={answers[q.id] || ""}
+                      onChange={(e) => handleAnswer(q.id, e.target.value)}
+                      placeholder="Type your answer..."
+                      maxLength={200}
+                      disabled={submitted}
+                      className="w-full px-4 py-3 rounded-xl bg-background border border-border font-body focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all disabled:opacity-70"
+                    />
                   )}
                 </motion.div>
               ))}
@@ -203,11 +177,23 @@ const PollsSection = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleSubmit}
-                  disabled={Object.keys(answers).length === 0}
+                  disabled={Object.keys(answers).length === 0 || submitting}
                   className="w-full py-4 rounded-xl bg-gold-gradient font-body text-sm tracking-widest uppercase text-accent-foreground shadow-gold disabled:opacity-40"
                 >
-                  Submit My Predictions ✨
+                  {submitting ? "Submitting..." : "Submit My Predictions ✨"}
                 </motion.button>
+              )}
+
+              {submitted && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-center glass rounded-2xl p-8 glow-gold"
+                >
+                  <div className="text-4xl mb-3">🎉</div>
+                  <h3 className="font-display text-xl text-primary font-semibold mb-2">Predictions Submitted!</h3>
+                  <p className="font-body text-muted-foreground text-sm">Thanks for playing, {voterName}!</p>
+                </motion.div>
               )}
             </motion.div>
           )}

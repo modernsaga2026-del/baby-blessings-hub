@@ -22,6 +22,11 @@ export type Database = {
           id: string
           message: string | null
           name: string
+          prediction_gender: string | null
+          prediction_looks: string | null
+          prediction_name: string | null
+          prediction_trait: string | null
+          prediction_wish: string | null
         }
         Insert: {
           attending: string
@@ -30,6 +35,11 @@ export type Database = {
           id?: string
           message?: string | null
           name: string
+          prediction_gender?: string | null
+          prediction_looks?: string | null
+          prediction_name?: string | null
+          prediction_trait?: string | null
+          prediction_wish?: string | null
         }
         Update: {
           attending?: string
@@ -38,6 +48,11 @@ export type Database = {
           id?: string
           message?: string | null
           name?: string
+          prediction_gender?: string | null
+          prediction_looks?: string | null
+          prediction_name?: string | null
+          prediction_trait?: string | null
+          prediction_wish?: string | null
         }
         Relationships: []
       }

@@ -94,14 +94,14 @@ const PhotoVideoGallery = () => {
         </motion.div>
 
         {/* Photo Grid with 3D hover */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4" style={{ perspective: "800px" }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ perspective: "800px" }}>
           {photos.map((photo, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 40, rotateY: i % 2 === 0 ? -10 : 10 }}
               animate={isInView ? { opacity: 1, y: 0, rotateY: 0 } : {}}
               transition={{ duration: 0.6, delay: i * 0.2, type: "spring" }}
-              className={`${photo.span} rounded-2xl overflow-hidden shadow-gold relative group depth-card`}
+              className="rounded-2xl overflow-hidden shadow-gold relative group depth-card aspect-square"
             >
               <img
                 src={photo.src}
@@ -134,7 +134,7 @@ const PhotoVideoGallery = () => {
             initial={{ opacity: 0, y: 40, rotateX: 8 }}
             animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4, type: "spring" }}
-            className="col-span-2 md:col-span-1 row-span-2 rounded-2xl overflow-hidden shadow-gold depth-card"
+            className="rounded-2xl overflow-hidden shadow-gold depth-card aspect-square"
           >
             <video
               src="/videos/special-video.mov#t=0.1"
