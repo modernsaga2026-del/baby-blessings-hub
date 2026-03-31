@@ -1,7 +1,6 @@
 import { useRef, useState, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import { Heart } from "lucide-react";
-import babyItemsImg from "@/assets/baby-items.jpg";
 import decorImg from "@/assets/celebration-decor.jpg";
 import mandalaImg from "@/assets/mandala-gold.png";
 
@@ -61,8 +60,7 @@ const PhotoVideoGallery = () => {
   }, [isPlaying]);
 
   const photos = [
-    { src: babyItemsImg, alt: "Baby shoes and items", span: "col-span-2 row-span-2", hasHeartbeat: false },
-    { src: decorImg, alt: "Baby ultrasound", span: "col-span-2 row-span-2", hasHeartbeat: true },
+    { src: decorImg, alt: "Baby ultrasound", hasHeartbeat: true },
   ];
 
   return (
@@ -94,14 +92,14 @@ const PhotoVideoGallery = () => {
         </motion.div>
 
         {/* Photo Grid with 3D hover */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{ perspective: "800px" }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4" style={{ perspective: "800px" }}>
           {photos.map((photo, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 40, rotateY: i % 2 === 0 ? -10 : 10 }}
               animate={isInView ? { opacity: 1, y: 0, rotateY: 0 } : {}}
               transition={{ duration: 0.6, delay: i * 0.2, type: "spring" }}
-              className="rounded-2xl overflow-hidden shadow-gold relative group depth-card aspect-square"
+              className="rounded-2xl overflow-hidden shadow-gold relative group depth-card aspect-[4/3]"
             >
               <img
                 src={photo.src}
@@ -109,7 +107,7 @@ const PhotoVideoGallery = () => {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 loading="lazy"
                 width={640}
-                height={640}
+                height={480}
               />
               {photo.hasHeartbeat && (
                 <button
@@ -134,7 +132,7 @@ const PhotoVideoGallery = () => {
             initial={{ opacity: 0, y: 40, rotateX: 8 }}
             animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4, type: "spring" }}
-            className="rounded-2xl overflow-hidden shadow-gold depth-card aspect-square"
+            className="rounded-2xl overflow-hidden shadow-gold depth-card aspect-[4/3]"
           >
             <video
               src="/videos/special-video.mov#t=0.1"
