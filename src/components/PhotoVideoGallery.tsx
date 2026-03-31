@@ -1,7 +1,7 @@
 import { useRef, useState, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import { Heart } from "lucide-react";
-import babyItemsImg from "@/assets/baby-items.jpg";
+import decorImg from "@/assets/celebration-decor.jpg";
 import decorImg from "@/assets/celebration-decor.jpg";
 import mandalaImg from "@/assets/mandala-gold.png";
 
