@@ -140,7 +140,7 @@ const PhotoVideoGallery = () => {
               playsInline
               preload="metadata"
               poster=""
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain bg-black/5"
             />
           </motion.div>
         </div>
