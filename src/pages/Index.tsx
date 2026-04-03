@@ -3,8 +3,7 @@ import PasscodeGate from "@/components/PasscodeGate";
 import HeroSection from "@/components/HeroSection";
 import EventDetailsSection from "@/components/EventDetailsSection";
 import PhotoVideoGallery from "@/components/PhotoVideoGallery";
-import RSVPSection from "@/components/RSVPSection";
-import PollsSection from "@/components/PollsSection";
+import RSVPAndPredictions from "@/components/RSVPAndPredictions";
 import FooterSection from "@/components/FooterSection";
 import AdminPanel from "@/components/AdminPanel";
 
@@ -36,15 +35,11 @@ const Index = () => {
         <PhotoVideoGallery />
       </section>
 
-      <section className="snap-section">
-        <RSVPSection />
+      <section>
+        <RSVPAndPredictions />
       </section>
 
-      <section className="snap-section snap-section-scrollable">
-        <PollsSection />
-      </section>
-
-      <section className="snap-section snap-section-auto">
+      <section>
         <FooterSection />
       </section>
 
