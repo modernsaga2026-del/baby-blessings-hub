@@ -1,33 +1,46 @@
 
-## Plan
 
-### 1. Remove scroll-snapping (`src/index.css`)
-- Remove `scroll-snap-type`, `scroll-snap-align`, fixed `height: 100dvh` / `max-height` from `.snap-container` and `.snap-section`
-- Keep the classes but make them simple flex column containers with natural flow
-- Result: free, continuous, smooth scrolling
+## Plan: Combine RSVP + Predictions into One Unified Form
 
-### 2. Fix video container (`src/components/PhotoVideoGallery.tsx`)
-- Change video element to use `object-fit: contain` instead of `object-cover`
-- Ensure `width: 100%` so the full frame is visible without cropping
+### What changes
 
-### 3. Change passcode (`src/components/PasscodeGate.tsx`)
-- Change `PASSCODE` from `"baby2026"` to `"rv2026"` (compared lowercase)
+**1. Create new combined component: `src/components/RSVPAndPredictions.tsx`**
 
-### 4. Celebratory entrance animation (`src/components/PasscodeGate.tsx`)
-- Install `canvas-confetti` package
-- On correct password: fire confetti burst, show animated peacock + parrot flying across screen (CSS/framer-motion SVG animations), then after ~2s fade out the gate and reveal content
-- The gate component will call `onUnlock` after the animation completes
+A single component replacing both `RSVPSection` and `PollsSection` with:
+- One heading: "RSVP & Baby Predictions" with subtitle "Let us know if you're joining and have fun guessing all about Baby!"
+- One form containing:
+  - **Your Name** (required)
+  - **Will you be attending?** (required, same Yes/Maybe/No buttons)
+  - **Number of People** (required, same dropdown)
+  - **Message** (optional textarea)
+  - A visual divider, then the prediction questions:
+    - Gender prediction (choice, optional)
+    - Looks prediction (choice, optional)
+    - Trait prediction (choice, optional)
+    - Baby name suggestion (text, optional)
+    - Wish for baby (text, optional)
+  - One submit button
+- On submit: single `supabase.from('rsvps').insert(...)` with all RSVP + prediction fields together
+- On success: show confirmation "Thank you for RSVPing and casting your predictions!" in-place (no scroll/jump)
 
-### 5. Flying birds assets
-- Generate peacock and parrot images (transparent PNGs) to use in the fly-across animation
+**2. Update `src/pages/Index.tsx`**
+- Remove imports of `RSVPSection` and `PollsSection`
+- Import new `RSVPAndPredictions`
+- Replace the two separate `<section>` blocks with one section rendering `<RSVPAndPredictions />`
 
-### Files Modified
-| File | Change |
+**3. Delete old files (or leave unused)**
+- `src/components/RSVPSection.tsx` — no longer imported
+- `src/components/PollsSection.tsx` — no longer imported
+
+### What stays the same
+- Supabase `rsvps` table schema, RLS policies, edge functions — untouched
+- AdminPanel reads from same table — works as before
+- All other sections (Hero, EventDetails, Gallery, Footer) — untouched
+- Existing styling patterns (glass cards, glow-gold, emerald-gradient buttons)
+
+### Files modified
+| File | Action |
 |---|---|
-| `src/index.css` | Remove snap-scroll rules |
-| `src/components/PhotoVideoGallery.tsx` | `object-contain` on video |
-| `src/components/PasscodeGate.tsx` | New passcode + entrance animation |
-| `package.json` | Add `canvas-confetti` |
-| `src/assets/` | Peacock + parrot images |
+| `src/components/RSVPAndPredictions.tsx` | **Create** — unified form component |
+| `src/pages/Index.tsx` | **Edit** — swap RSVPSection + PollsSection for RSVPAndPredictions |
 
-### No database changes needed
