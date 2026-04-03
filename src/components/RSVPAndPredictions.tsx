@@ -104,10 +104,10 @@ const RSVPAndPredictions = () => {
             >
               <div className="text-5xl mb-4">🎉</div>
               <h3 className="font-display text-2xl text-primary font-semibold mb-2">
-                Thank You!
+                Thank You for RSVPing!
               </h3>
               <p className="font-body text-muted-foreground">
-                Thank you for RSVPing and casting your predictions!
+                Scroll down to Cast Your Prediction and join the fun! 🎉
               </p>
             </motion.div>
           ) : (
