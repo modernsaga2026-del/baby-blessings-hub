@@ -35,15 +35,11 @@ const Index = () => {
         <PhotoVideoGallery />
       </section>
 
-      <section className="snap-section">
-        <RSVPSection />
+      <section>
+        <RSVPAndPredictions />
       </section>
 
-      <section className="snap-section snap-section-scrollable">
-        <PollsSection />
-      </section>
-
-      <section className="snap-section snap-section-auto">
+      <section>
         <FooterSection />
       </section>
 
